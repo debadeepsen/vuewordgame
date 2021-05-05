@@ -29,7 +29,14 @@
     </div>
 
     <!-- The alphabet buttons -->
-    <div>
+    <div class="button-container">
+      <div
+        class="button-disabling-overlay"
+        :style="{
+          pointerEvents: puzzleSolved ? 'all' : 'none',
+          background: puzzleSolved ? '#fff7' : '#0000',
+        }"
+      ></div>
       <button
         :class="getLetterButtonClass(l)"
         v-for="l in alphabets"
@@ -42,7 +49,26 @@
       </button>
     </div>
     <div>{{ message }}</div>
-    <div><button @click="loadGame">New Game</button></div>
+    <div><button id="new_game" @click="loadGame">New Game</button></div>
+    <div id="credits">
+      <div>
+        Background Photo by
+        <a
+          target="_blank"
+          href="https://www.pexels.com/photo/date-arrow-calendar-time-5652114/"
+        >
+          Visual Tag Mx from Pexels
+        </a>
+      </div>
+      <div>
+        Word list from
+        <a
+          target="_blank"
+          href="https://www.ef.com/wwen/english-resources/english-vocabulary/top-3000-words/"
+          >https://www.ef.com/wwen/english-resources/english-vocabulary/top-3000-words/</a
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,6 +107,10 @@ export default {
 
     degrees() {
       return Math.round((this.progress / this.currentWord.length) * 360);
+    },
+
+    puzzleSolved() {
+      return this.progress === this.currentWord.length;
     },
   },
 
@@ -123,7 +153,7 @@ export default {
       // the length of the filtered array is how many characters were guessed correctly
       this.progress += this.currentWord.split("").filter((e) => e === letter).length;
 
-      if (this.progress === this.currentWord.length) {
+      if (this.puzzleSolved) {
         // solved
         this.message = `Congratulations! You found the word ${this.currentWord} in ${this.tries} tries! Click on the button below to begin a new game.`;
       }
@@ -192,6 +222,19 @@ h3 {
   background-color: transparent;
 }
 
+.button-container {
+  position: relative;
+}
+
+.button-disabling-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 0.18s;
+}
+
 .letter-button,
 .letter-button-disabled {
   display: inline-block;
@@ -235,18 +278,20 @@ h3 {
   top: 20px;
   left: 20px;
 }
+
 .pc-background {
   border-radius: 50%;
   width: 60px;
   height: 60px;
   background: #ddd;
   margin-bottom: 20px;
-  transition: all 0.4s;
 }
+
 .pc-overlay {
   border-radius: 50%;
   width: 44px;
   height: 44px;
+  font-size: 14px;
   background: #fff;
   position: absolute;
   margin-top: 8px;
@@ -254,6 +299,33 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#new_game {
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 3px #1112;
+  background: #fff;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#new_game:hover {
+  color: #208f8f;
+  transform: scale(1.1);
+}
+
+#credits {
+  font-size: 0.7rem;
+  margin-top: 36px;
+}
+
+#credits div {
+  margin: 0;
+}
+
+#credits a {
+  color: darkcyan;
 }
 
 @media screen and (max-width: 1200px) {
