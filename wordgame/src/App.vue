@@ -186,7 +186,7 @@ body {
 
 #app {
   text-align: center;
-  background: #fffe;
+  background: #fff;
   color: #5b6168;
   padding: 20px;
   width: 50vw;
