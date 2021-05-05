@@ -1,7 +1,23 @@
 <template>
   <div id="app">
     <h1>Guess the {{ currentWord.length }}-letter word below.</h1>
-    <h3>Choose from the letters below</h3>
+    <h3 style="margin-bottom: 40px">Choose from the letters below</h3>
+
+    <!-- A circular progress indicator -->
+    <div class="progress-circle">
+      <div class="pc-overlay">{{ progressPercent }}%</div>
+      <div
+        class="pc-background"
+        :style="{
+          background: `conic-gradient(#ec826f ${degrees}deg, #ddd ${degrees}deg)`,
+        }"
+      ></div>
+    </div>
+
+    <!-- The number of times the player has guessed -->
+    <div class="tries-count">{{ tries }} tries</div>
+
+    <!-- Displaying the guessed letters -->
     <div>
       <input
         readonly
@@ -11,18 +27,21 @@
         :value="getGuessedLetter(i)"
       />
     </div>
+
+    <!-- The alphabet buttons -->
     <div>
       <button
         :class="getLetterButtonClass(l)"
         v-for="l in alphabets"
         :key="l"
-        :title="`Pick ${l}`"
+        :title="currentGuess.includes(l) ? `${l} already picked` : `Pick ${l}`"
+        :style="{ cursor: currentGuess.includes(l) ? 'default' : 'pointer' }"
         @click="makeGuess(l)"
       >
         {{ l }}
       </button>
     </div>
-    <div>{{ currentWord }}</div>
+    <div>{{ message }}</div>
     <div><button @click="loadGame">New Game</button></div>
   </div>
 </template>
@@ -37,6 +56,9 @@ export default {
     return {
       currentWord: "",
       currentGuess: [],
+      tries: 0,
+      progress: 0,
+      message: "",
     };
   },
 
@@ -52,12 +74,22 @@ export default {
     alphabets() {
       return Constants.ALPHABETS.split("");
     },
+
+    progressPercent() {
+      return Math.round((this.progress / this.currentWord.length) * 100);
+    },
+
+    degrees() {
+      return Math.round((this.progress / this.currentWord.length) * 360);
+    },
   },
 
   methods: {
     reset() {
       this.currentWord = "";
       this.currentGuess = [];
+      this.tries = 0;
+      this.progress = 0;
     },
 
     loadGame() {
@@ -84,6 +116,17 @@ export default {
     makeGuess(letter) {
       if (this.currentGuess.includes(letter)) return;
       this.currentGuess.push(letter);
+      this.tries++;
+
+      // this.currentWord.split("") -> converts the string to an array
+      // then the array is filtered upon which of its elements matches the letter
+      // the length of the filtered array is how many characters were guessed correctly
+      this.progress += this.currentWord.split("").filter((e) => e === letter).length;
+
+      if (this.progress === this.currentWord.length) {
+        // solved
+        this.message = `Congratulations! You found the word ${this.currentWord} in ${this.tries} tries! Click on the button below to begin a new game.`;
+      }
     },
   },
 };
@@ -98,24 +141,24 @@ export default {
 }
 
 body {
-  background: darkslategray;
+  background-image: linear-gradient(0deg, #0003, #0003),
+    url("./assets/pexels-visual-tag-mx-5652114.jpg");
+  background-size: cover;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 #app {
   text-align: center;
-  background: #fff;
+  background: #fffe;
   color: #5b6168;
   padding: 20px;
-  width: 70vw;
+  width: 50vw;
   margin: 50px auto;
-}
-
-@media screen and (max-width: 640px) {
-  #app {
-    width: 90vw;
-  }
+  position: relative;
+  box-shadow: 0px 0px 6px 2px #0004;
 }
 
 div {
@@ -135,7 +178,7 @@ h3 {
 
 .word-display {
   font-family: "Oxyden Mono", monospace;
-  color: tomato;
+  color: #ec826f;
   display: inline-block;
   width: 2vw;
   height: 2vw;
@@ -145,7 +188,8 @@ h3 {
   margin: 0px 0.3vmax;
   padding: 8px;
   font-size: 32px;
-  /* border: 1px solid; */
+  outline: none;
+  background-color: transparent;
 }
 
 .letter-button,
@@ -154,12 +198,12 @@ h3 {
   text-align: center;
   width: 40px;
   border: 0;
-  background: #339487;
+  background: #0490b3;
+  box-shadow: 1px 1px 3px #1116;
   color: #fff;
   margin: 0.5vw;
   padding: 10px;
   font-size: 20px;
-  cursor: pointer;
   transition: all 0.25s;
 }
 
@@ -170,7 +214,61 @@ h3 {
 }
 
 .letter-button-disabled {
-  background: #c0c2c1;
-  color: #7e7e7e;
+  background: #c0c2c188;
+  color: #9995;
+}
+
+.tries-count {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 50px;
+  background: #f8beb455;
+  color: #ec826f;
+  padding: 10px;
+  border-radius: 50px;
+  font-size: 14px;
+}
+
+.progress-circle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.pc-background {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: #ddd;
+  margin-bottom: 20px;
+  transition: all 0.4s;
+}
+.pc-overlay {
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  position: absolute;
+  margin-top: 8px;
+  margin-left: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1200px) {
+  #app {
+    width: 75vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #app {
+    width: 90vw;
+  }
+
+  .word-display {
+    width: 3.2vw;
+  }
 }
 </style>
