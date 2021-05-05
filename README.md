@@ -14,7 +14,7 @@ This is meant to serve as an educational example, as it demonstrates some very c
 
 This also shows how to build cool widgets such as a circular progress indicator (which, at the time of writing this, is coded into App.vue, but I intend to make it a standalone component some day).
 
-Lastly, it is fun to play (as long as you don't cheat by peeking at the Vue Devtools)!
+Lastly, it is fun to play (as long as you don't cheat by peeking at Vue Devtools)!
 
 ## Contribution
 I'm always learning, and I invite contributions! If you would like to add on to the existing game, or improve upon performance or some other aspect, please submit a pull request.
