@@ -17,7 +17,7 @@ This also shows how to build cool widgets such as a circular progress indicator 
 Lastly, it is fun to play (as long as you don't cheat by peeking at Vue Devtools)!
 
 ## Contribution
-I'm always learning, and I invite contributions! If you would like to add on to the existing game, or improve upon performance or some other aspect, please submit a pull request.
+I'm always learning, and I invite contributions! If you would like to add on to the existing game, or improve upon performance or some other aspect, please submit a pull request. Just try not to make things too complicated. This is meant to be a hands-on guide for beginners, and I'd love to keep it that way.
 
 ## Prerequisites
 You need to have NodeJS and npm installed.
