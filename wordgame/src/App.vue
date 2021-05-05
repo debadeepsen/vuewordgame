@@ -19,6 +19,10 @@
 
     <!-- Displaying the guessed letters -->
     <div>
+
+      <!-- Always remember to provide a key with v-for, 
+        so that vue knows exactly what render to do, 
+        and what to avoid -->
       <input
         readonly
         class="word-display"
