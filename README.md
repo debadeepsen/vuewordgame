@@ -1,7 +1,7 @@
 # vuewordgame
 A simple word game, built with Vue JS (2.0). Inspired by Hangman, it gives you a random (but common English) word, and asks you to guess it, letter by letter.
 
-Live demo: http://wordgame.softwarecradle.com/
+Live demo: https://debadeepsen.github.io/vuewordgame-demo/
 
 ## Purpose
 This is meant to serve as an educational example, as it demonstrates some very commonly used features of Vue JS
