@@ -8,7 +8,8 @@ This is meant to serve as an educational example, as it demonstrates some very c
 
 - State
 - Computed Properties
-- Method
+- Methods
+- List Rendering
 - Event Handling
 
 This also shows how to build cool widgets such as a circular progress indicator (which, at the time of writing this, is coded into App.vue, but I intend to make it a standalone component some day).
