@@ -1,6 +1,8 @@
 # vuewordgame
 A simple word game, built with Vue JS (2.0)
 
+Live demo: http://wordgame.softwarecradle.com/
+
 ## Prerequisites
 You need to have NodeJS and npm installed.
 
