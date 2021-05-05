@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Guess the {{ currentWord.length }}-letter word below.</h1>
+    <h1>Guess the {{ currentWord.length }}-letter word</h1>
     <h3 style="margin-bottom: 40px">Choose from the letters below</h3>
 
     <!-- A circular progress indicator -->
